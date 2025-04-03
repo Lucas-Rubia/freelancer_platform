@@ -1,12 +1,13 @@
 ﻿using Freelancers.Domain.DTOs.Requests;
-using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.DTOs.Responses.User;
 using Freelancers.Domain.Entities;
 using Freelancers.Domain.Exceptions;
 using Freelancers.Domain.Interfaces.Users;
 using Freelancers.Domain.Repositories;
+using Freelancers.Domain.Repositories.Users;
 using Freelancers.Domain.Security.Cryptography;
 
-namespace Freelancers.Application.UseCase.Auth;
+namespace Freelancers.Application.UseCase.Auth.Users;
 
 public class CreateUserUseCase(
     IUserWriteOnlyRepository userWriteOnlyRepository,

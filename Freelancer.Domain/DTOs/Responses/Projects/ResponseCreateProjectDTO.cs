@@ -1,4 +1,4 @@
-﻿namespace Freelancers.Domain.DTOs.Responses
+﻿namespace Freelancers.Domain.DTOs.Responses.Projects
 {
     public class ResponseCreateProjectDTO
     {

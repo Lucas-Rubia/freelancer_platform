@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Freelancers.Domain.DTOs.Requests;
 
-namespace Freelancers.Application.UseCase.Auth;
+namespace Freelancers.Application.UseCase.Auth.Users;
 
 public class CreateUserValidator : AbstractValidator<RequestUserDTO>
 {

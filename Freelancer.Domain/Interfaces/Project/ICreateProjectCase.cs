@@ -1,5 +1,5 @@
 ﻿using Freelancers.Domain.DTOs.Requests;
-using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.DTOs.Responses.Projects;
 
 namespace Freelancers.Domain.Interfaces.Project;
 

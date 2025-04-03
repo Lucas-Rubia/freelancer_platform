@@ -24,6 +24,8 @@ public class Project : BaseModel
         DeadLine = deadLine;
         Bugdet = bugdet;
         UserId = userId;
+
+        Validate();
     }
 
     public static Project Create(string title, string description, DateTime deadLine, decimal bugdet, int userId)
@@ -40,10 +42,10 @@ public class Project : BaseModel
         Bugdet = bugdet;
         UpdatedAt = DateTime.UtcNow;
 
-        ValidateProject();
+        Validate();
     }   
 
-    private void ValidateProject()
+    private void Validate()
     {
         if (string.IsNullOrEmpty(Title))
             throw new DomainException("Titulo não pode ser vazio");

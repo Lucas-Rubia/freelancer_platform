@@ -1,11 +1,12 @@
 ﻿using Freelancers.Domain.DTOs.Requests;
-using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.DTOs.Responses.Projects;
 using Freelancers.Domain.Entities;
 using Freelancers.Domain.Exceptions;
 using Freelancers.Domain.Interfaces.Project;
 using Freelancers.Domain.Repositories;
+using Freelancers.Domain.Repositories.Projects;
 
-namespace Freelancers.Application.UseCase.Auth;
+namespace Freelancers.Application.UseCase.Auth.Projects;
 
 public class CreateProjectUseCase(
     IProjectWriteOnlyRepository projectWriteOnlyRepository,

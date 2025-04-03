@@ -1,6 +1,6 @@
 ﻿using Freelancers.Domain.Enums;
 
-namespace Freelancers.Domain.DTOs.Responses;
+namespace Freelancers.Domain.DTOs.Responses.User;
 
 public class ResponseCreatedUserDTO
 {

@@ -39,6 +39,8 @@ public class Proposal : BaseModel
         Message = message;
         Status = status;
         UpdatedAt = DateTime.UtcNow;
+
+        Validate();
     }
 
     private void Validate()

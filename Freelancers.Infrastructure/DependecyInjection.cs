@@ -1,4 +1,9 @@
 ﻿using Freelancers.Domain.Repositories;
+using Freelancers.Domain.Repositories.Contracts;
+using Freelancers.Domain.Repositories.Projects;
+using Freelancers.Domain.Repositories.Proposals;
+using Freelancers.Domain.Repositories.Reviwers;
+using Freelancers.Domain.Repositories.Users;
 using Freelancers.Domain.Security.Cryptography;
 using Freelancers.Infrastructure.DataAccess;
 using Freelancers.Infrastructure.DataAccess.Repositories;
@@ -33,5 +38,8 @@ public static class DependecyInjection
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();
         services.AddScoped<IProposalReadOnlyRepository, ProposalRepository>();
         services.AddScoped<IProposalWriteOnlyRepository, ProposalRepository>();
+        services.AddScoped<IReviewReadOnlyRepository, ReviewRepository>();
+        services.AddScoped<IReviewWriteOnlyRepository, ReviewRepository>();
+        services.AddScoped<IContractReadOnlyRepository, ContractRepository>();
     }
 }
