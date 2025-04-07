@@ -5,5 +5,5 @@ namespace Freelancers.Domain.Interfaces.Users;
 
 public interface IGetAllUserUseCase
 {
-    Task <BaseResponse<List<ResponseUserDTO>?>> Execute();
+    Task <BasePagedResponse<List<ResponseUserDTO>?>> Execute(int pageSize, int pageNumber);
 }

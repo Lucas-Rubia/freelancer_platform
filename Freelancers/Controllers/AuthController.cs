@@ -1,4 +1,5 @@
-﻿using Freelancers.Domain.DTOs.Requests;
+﻿using Freelancers.Domain;
+using Freelancers.Domain.DTOs.Requests;
 using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.Review;
 using Freelancers.Domain.DTOs.Responses.User;
@@ -27,10 +28,10 @@ public class AuthController : ControllerBase
     [HttpGet]
 
     [ProducesResponseType(typeof(ResponseCreatedUserDTO), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorDTO), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllUsers([FromServices] IGetAllUserUseCase useUser)
+    public async Task<IActionResult> GetAllUsers([FromServices] IGetAllUserUseCase useUser,
+        [FromQuery] int pageSize = APIConfiguration.DefaultPageSize, int pageNumber = APIConfiguration.DefaultPageNumber)
     {
-        var response = await useUser.Execute();
+        var response = await useUser.Execute(pageSize, pageNumber);
         return Ok(response);
     }
 }

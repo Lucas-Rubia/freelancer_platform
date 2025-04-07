@@ -1,4 +1,5 @@
-﻿using Freelancers.Domain.DTOs.Requests;
+﻿using Freelancers.Domain;
+using Freelancers.Domain.DTOs.Requests;
 using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.Review;
 using Freelancers.Domain.Interfaces.Review;
@@ -23,11 +24,11 @@ public class ReviewController : ControllerBase
     [HttpGet]
 
     [ProducesResponseType(typeof(ResponseCreateReviewDTO), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorDTO), StatusCodes.Status404NotFound)]
 
-    public async Task<IActionResult> GetAllReview([FromServices] IGetAllReviewUseCase useReview)
+    public async Task<IActionResult> GetAllReview([FromServices] IGetAllReviewUseCase useReview,
+        [FromQuery] int pageSize = APIConfiguration.DefaultPageSize, int pageNumber = APIConfiguration.DefaultPageNumber)
     {
-        var response = await useReview.Execute();
+        var response = await useReview.Execute(pageSize, pageNumber);
         return Ok(response);
     }
 }

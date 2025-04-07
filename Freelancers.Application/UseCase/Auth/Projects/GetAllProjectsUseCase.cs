@@ -1,32 +1,29 @@
-﻿using Freelancers.Domain.DTOs.Responses;
+﻿    using AutoMapper;
+using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.Projects;
 using Freelancers.Domain.Interfaces.Project;
 using Freelancers.Domain.Repositories.Projects;
 
 namespace Freelancers.Application.UseCase.Auth.Projects;
 
-public class GetAllProjectsUseCase(IProjectReadOnlyRepository projectReadOnlyRepository) : IGetAllProjectsUseCase
+public class GetAllProjectsUseCase(IProjectReadOnlyRepository projectReadOnlyRepository, IMapper mapper) : IGetAllProjectsUseCase
 {
     private readonly IProjectReadOnlyRepository _projectReadOnlyRepository = projectReadOnlyRepository;
+    private readonly IMapper _mapper = mapper;
 
-    public async Task<BaseResponse<List<ResponseProjectsDTO>?>> Execute()
+    public async Task<BasePagedResponse<List<ResponseProjectsDTO>?>> Execute(int pageSize, int pageNumber)
     {
-        var projects = await _projectReadOnlyRepository.GetAllAsync();
+        var projects = await _projectReadOnlyRepository.GetAllAsync(pageSize, pageNumber);
 
         if(projects is null)
-            return new BaseResponse<List<ResponseProjectsDTO>?>([], "Projects não coletados");
+            return new BasePagedResponse<List<ResponseProjectsDTO>?>([], "Projects não coletados");
 
-        var projectsData = projects?.Select(x => new ResponseProjectsDTO
-        {
-            Id = x.Id,
-            Bugdet = x.Bugdet,
-            DeadLine = x.DeadLine,
-            Title = x.Title
-        }).ToList();
+        var projectsData = _mapper.Map<List<ResponseProjectsDTO>>(projects.Data);
 
-        var projectsDTO = new BaseResponse<List<ResponseProjectsDTO>?>(projectsData, "Projects coletados com sucesso");
-
-        return projectsDTO;
-
+        return new BasePagedResponse<List<ResponseProjectsDTO>?>(
+            projectsData,
+            projects!.TotalCount,
+            pageNumber,
+            pageSize);
     }
 }

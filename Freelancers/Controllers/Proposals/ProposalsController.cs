@@ -4,6 +4,7 @@ using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.Interfaces.Proposal;
 using Microsoft.AspNetCore.Mvc;
 using Freelancers.Domain.DTOs.Responses.Proposal;
+using Freelancers.Domain;
 
 namespace Freelancers.Controllers.Proposals;
 
@@ -24,11 +25,11 @@ public class ProposalController : ControllerBase
     [HttpGet]
 
     [ProducesResponseType(typeof(ResponseCreatedProposalDTO), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorDTO), StatusCodes.Status404NotFound)]
 
-    public async Task<IActionResult> GetAllProposal([FromServices] IGetAllProposalUseCase useProposal)
+    public async Task<IActionResult> GetAllProposal([FromServices] IGetAllProposalUseCase useProposal, 
+        [FromQuery] int pageSize = APIConfiguration.DefaultPageSize, int pageNumber = APIConfiguration.DefaultPageNumber)
     {
-        var response = await useProposal.Execute();
+        var response = await useProposal.Execute(pageSize, pageNumber);
         return Ok(response);
     }
 }

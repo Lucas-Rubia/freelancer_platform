@@ -1,28 +1,30 @@
-﻿using Freelancers.Domain.DTOs.Responses;
+﻿using AutoMapper;
+using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.User;
 using Freelancers.Domain.Interfaces.Users;
 using Freelancers.Domain.Repositories.Users;
 
 namespace Freelancers.Application.UseCase.Auth.Users;
 
-public class GetAllUserUseCase(IUserReadOnlyRepository userReadOnlyRepository) : IGetAllUserUseCase
+public class GetAllUserUseCase(IUserReadOnlyRepository userReadOnlyRepository, IMapper mapper) : IGetAllUserUseCase
 {
     private readonly IUserReadOnlyRepository _userReadOnlyRepository = userReadOnlyRepository;
+    private readonly IMapper _mapper = mapper;
 
-    public async Task<BaseResponse<List<ResponseUserDTO>?>> Execute()
+    public async Task<BasePagedResponse<List<ResponseUserDTO>?>> Execute(int pageSize, int pageNumber)
     {
-        var users = await _userReadOnlyRepository.GetAllAsync();
+        var users = await _userReadOnlyRepository.GetAllAsync(pageSize, pageNumber);
 
         if (users is null)
-            return new BaseResponse<List<ResponseUserDTO>?>([], "Usuario não encontrado ou não cadastrado");
+            return new BasePagedResponse<List<ResponseUserDTO>?>([], "Usuario não encontrado ou não cadastrado");
 
-        var userData = users?.Select(x => new ResponseUserDTO { 
-            Id = x.Id,
-            Name = x.Name,
-            UserType = x.UserType
-        }).ToList();
+        var userData = _mapper.Map<List<ResponseUserDTO>>(users.Data);
 
-        var usersDTO = new BaseResponse<List<ResponseUserDTO>?>(userData, "Usuario(s) encontrado(s) com sucesso");
+        var usersDTO = new BasePagedResponse<List<ResponseUserDTO>?>(
+            userData,
+            users!.TotalCount,
+            pageSize,
+            pageNumber);
 
         return usersDTO;
     }

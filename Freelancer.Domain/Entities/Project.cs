@@ -16,7 +16,8 @@ public class Project : BaseModel
 
     public ICollection<Proposal> Proposals { get; set; } = default!;
 
-    //private Project() { }
+    public Project() { }
+
     private Project(string title, string description, DateTime deadLine, decimal bugdet, int userId)
     {
         Title = title;
@@ -53,7 +54,7 @@ public class Project : BaseModel
         if (string.IsNullOrEmpty(Description))
             throw new DomainException("Descrição não pode ser vazia");
 
-        if (DeadLine > DateTime.UtcNow)
+        if (DeadLine <= DateTime.UtcNow)
             throw new DomainException("A DeadLine não pode ser vazia");
 
         if (decimal.IsNegative(Bugdet) || Bugdet == 0)

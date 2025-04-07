@@ -1,8 +1,9 @@
-﻿using Freelancers.Domain.Entities;
+﻿using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.Entities;
 
 namespace Freelancers.Domain.Repositories.Contracts;
 
 public interface IContractReadOnlyRepository
 {
-    Task<List<Contract>?> GetAllAsync();
+    Task<BasePagedResult<List<Contract>?>> GetAllAsync(int pageSize, int pageNumber);
 }

@@ -1,30 +1,29 @@
-﻿using Freelancers.Domain.DTOs.Responses;
+﻿using AutoMapper;
+using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.Contract;
 using Freelancers.Domain.Interfaces.Contract;
 using Freelancers.Domain.Repositories.Contracts;
 
 namespace Freelancers.Application.UseCase.Auth.Contracts;
 
-public class GetAllContractUseCase(IContractReadOnlyRepository contractReadOnlyRepository) : IGetAllContratcsUseCase
+public class GetAllContractUseCase(IContractReadOnlyRepository contractReadOnlyRepository, IMapper mapper) : IGetAllContratcsUseCase
 {
     private readonly IContractReadOnlyRepository _contractReadOnlyRepository = contractReadOnlyRepository;
-    public async Task<BaseResponse<List<ResponseContractDTO>?>> Execute()
+    private readonly IMapper _mapper = mapper;
+    public async Task<BasePagedResponse<List<ResponseContractDTO>?>> Execute( int pageSize, int pageNumber)
     {
-        var contract = await _contractReadOnlyRepository.GetAllAsync();
+        var contract = await _contractReadOnlyRepository.GetAllAsync(pageSize, pageNumber);
 
         if (contract is null)
-            return new BaseResponse<List<ResponseContractDTO>?>([], "Nenhum contrato encontrado");
+            return new BasePagedResponse<List<ResponseContractDTO>?>([], "Nenhum contrato encontrado");
 
-        var contractData = contract?.Select(x => new ResponseContractDTO
-        {
-            Id = x.Id,
-            StartDate = x.StartDate,
-            EndDate = x.EndDate,
-            Status = x.Status
+        var contractData = _mapper.Map<List<ResponseContractDTO>>(contract.Data);
 
-        }).ToList();
-
-        var contratcDTO = new BaseResponse<List<ResponseContractDTO>?>(contractData, "Contrato encontrado com sucesso");
+        var contratcDTO = new BasePagedResponse<List<ResponseContractDTO>?>(
+            contractData,
+            contract!.TotalCount,
+            pageSize,
+            pageNumber);
 
         return contratcDTO;
     }

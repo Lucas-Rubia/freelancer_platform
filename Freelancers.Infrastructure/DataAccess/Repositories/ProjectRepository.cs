@@ -1,4 +1,5 @@
-﻿using Freelancers.Domain.Entities;
+﻿using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.Entities;
 using Freelancers.Domain.Repositories.Projects;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +14,20 @@ internal class ProjectRepository(FreelancersDbContext context) : IProjectWriteOn
         await _dbconxtext.Projects.AddAsync(project);
     }
 
-    public async Task<List<Project>?> GetAllAsync()
+    public async Task<BasePagedResult<List<Project>?>> GetAllAsync(int pageSize, int pageNumber)
     {
-        return await _dbconxtext.Projects.AsNoTracking().ToListAsync();
+        var query = _dbconxtext
+            .Projects
+            .AsNoTracking()
+            .OrderBy(x => x.Title);
+
+        var projects = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var count = await query.CountAsync();
+
+        return new BasePagedResult<List<Project>?>(projects, count);
     }
 }

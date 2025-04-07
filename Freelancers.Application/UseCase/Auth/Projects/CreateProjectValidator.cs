@@ -9,7 +9,7 @@ internal class CreateProjectValidator : AbstractValidator<RequestProjectDTO>
     {
         RuleFor(x => x.Title)
             .NotEmpty()
-            .WithMessage("itulo não pode ser vazio");
+            .WithMessage("Titulo não pode ser vazio");
 
         RuleFor(x => x.Description)
             .NotEmpty()

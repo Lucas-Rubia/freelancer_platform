@@ -3,6 +3,7 @@ using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.Interfaces.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Freelancers.Domain.DTOs.Responses.Contract;
+using Freelancers.Domain;
 
 namespace Freelancers.Controllers.Contracts;
 
@@ -13,10 +14,10 @@ public class ContractController : ControllerBase
     [HttpGet]
 
     [ProducesResponseType(typeof(ResponseContractDTO), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorDTO), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllContract([FromServices] IGetAllContratcsUseCase useContract)
+    public async Task<IActionResult> GetAllContract([FromServices] IGetAllContratcsUseCase useContract,
+        [FromQuery] int pageSize = APIConfiguration.DefaultPageSize, int pageNumber = APIConfiguration.DefaultPageNumber)
     {
-        var response = await useContract.Execute();
+        var response = await useContract.Execute(pageSize, pageNumber);
         return Ok(response);
     }
 }

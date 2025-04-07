@@ -1,8 +1,9 @@
-﻿using Freelancers.Domain.Entities;
+﻿using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.Entities;
 
 namespace Freelancers.Domain.Repositories.Projects;
 
 public interface IProjectReadOnlyRepository
 {
-    Task<List<Project>?> GetAllAsync();
+    Task<BasePagedResult<List<Project>?>> GetAllAsync(int pageSize, int pageNumber);
 }

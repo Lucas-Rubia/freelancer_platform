@@ -6,5 +6,5 @@ namespace Freelancers.Domain.Interfaces.Review;
 
 public interface IGetAllReviewUseCase
 {
-    Task<BaseResponse<List<ResponseReviewDTO>?>> Execute();
+    Task<BasePagedResponse<List<ResponseReviewDTO>?>> Execute(int pageSize, int PageNumber);
 }

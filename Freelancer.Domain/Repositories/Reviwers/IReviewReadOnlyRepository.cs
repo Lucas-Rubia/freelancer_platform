@@ -1,8 +1,9 @@
-﻿using Freelancers.Domain.Entities;
+﻿using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.Entities;
 
 namespace Freelancers.Domain.Repositories.Reviwers;
 
 public interface IReviewReadOnlyRepository
 {
-    Task<List<Review>?> GetAllAsync();
+    Task<BasePagedResult<List<Review>?>> GetAllAsync(int pageSize, int pageResult);
 }
