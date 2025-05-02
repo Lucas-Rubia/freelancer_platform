@@ -1,4 +1,4 @@
-﻿namespace Freelancers.Domain.DTOs.Requests;
+﻿namespace Freelancers.Domain.DTOs.Requests.Project;
 
 public class RequestProjectDTO
 {

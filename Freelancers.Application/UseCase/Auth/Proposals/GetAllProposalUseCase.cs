@@ -10,9 +10,9 @@ internal class GetAllProposalUseCase(IProposalReadOnlyRepository proposalReadOnl
 {
     private readonly IProposalReadOnlyRepository _proposalReadOnlyRepository = proposalReadOnlyRepository;
     private readonly IMapper _mapper = mapper;
-    public async Task<BasePagedResponse<List<ResponseProposalDTO>?>> Execute(int pageSize, int pageNumber)
+    public async Task<BasePagedResponse<List<ResponseProposalDTO>?>> Execute(int userID, int pageSize, int pageNumber)
     {
-        var proposal = await _proposalReadOnlyRepository.GetAllAsync(pageSize, pageNumber);
+        var proposal = await _proposalReadOnlyRepository.GetAllAsync(userID, pageSize, pageNumber);
 
         if (proposal is null)
             return new BasePagedResponse<List<ResponseProposalDTO>?>([], "Não foi encontrado nenhuma proposta");

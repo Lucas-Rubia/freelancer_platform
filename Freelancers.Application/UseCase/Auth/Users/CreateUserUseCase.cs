@@ -1,4 +1,6 @@
-﻿using Freelancers.Domain.DTOs.Requests;
+﻿using AutoMapper;
+using Freelancers.Domain.DTOs.Requests.User;
+using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.User;
 using Freelancers.Domain.Entities;
 using Freelancers.Domain.Exceptions;
@@ -12,13 +14,15 @@ namespace Freelancers.Application.UseCase.Auth.Users;
 public class CreateUserUseCase(
     IUserWriteOnlyRepository userWriteOnlyRepository,
     IUnityOfWork unityOfWork, 
-    IPasswordEncryption passwordEncryption) : ICreateUserUseCase
+    IPasswordEncryption passwordEncryption,
+    IMapper mapper) : ICreateUserUseCase
 {
     private readonly IUserWriteOnlyRepository _userWriteOnlyRepository = userWriteOnlyRepository;
     private readonly IUnityOfWork _unityOfWork = unityOfWork;
     private readonly IPasswordEncryption _passwordEncryption = passwordEncryption;
+    private readonly IMapper _mapper = mapper;
 
-    public async Task<ResponseCreatedUserDTO> Execute(RequestUserDTO request)
+    public async Task<BaseResponse<ResponseCreatedUserDTO>> Execute(RequestUserDTO request)
     {
         await Validate(request);
 
@@ -29,11 +33,10 @@ public class CreateUserUseCase(
         await _userWriteOnlyRepository.Add(user);
         await _unityOfWork.Commit();
 
-        return new ResponseCreatedUserDTO
-        {
-            Name = user.Name,
-            UserType = user.UserType
-        };
+        var userData = _mapper.Map<ResponseCreatedUserDTO>(user);
+
+        return new BaseResponse<ResponseCreatedUserDTO>(userData);
+
     }
 
     private static async Task Validate(RequestUserDTO request)

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Freelancers.Domain.DTOs.Requests;
+using Freelancers.Domain.DTOs.Requests.Proposal;
 
 namespace Freelancers.Application.UseCase.Auth.Proposals;
 

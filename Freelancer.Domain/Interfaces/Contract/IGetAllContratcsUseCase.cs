@@ -5,5 +5,5 @@ namespace Freelancers.Domain.Interfaces.Contract;
 
 public interface IGetAllContratcsUseCase
 {
-    Task<BasePagedResponse<List<ResponseContractDTO>?>> Execute(int pageSize, int pageNumber);
+    Task<BasePagedResponse<List<ResponseContractDTO>?>> Execute(int userID, int pageSize, int pageNumber);
 }

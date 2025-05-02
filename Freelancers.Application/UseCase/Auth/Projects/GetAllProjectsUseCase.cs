@@ -11,9 +11,9 @@ public class GetAllProjectsUseCase(IProjectReadOnlyRepository projectReadOnlyRep
     private readonly IProjectReadOnlyRepository _projectReadOnlyRepository = projectReadOnlyRepository;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<BasePagedResponse<List<ResponseProjectsDTO>?>> Execute(int pageSize, int pageNumber)
+    public async Task<BasePagedResponse<List<ResponseProjectsDTO>?>> Execute(int userID, int pageSize, int pageNumber)
     {
-        var projects = await _projectReadOnlyRepository.GetAllAsync(pageSize, pageNumber);
+        var projects = await _projectReadOnlyRepository.GetAllAsync(userID, pageSize, pageNumber);
 
         if(projects is null)
             return new BasePagedResponse<List<ResponseProjectsDTO>?>([], "Projects não coletados");

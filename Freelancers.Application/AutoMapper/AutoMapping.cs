@@ -32,6 +32,8 @@ public class AutoMapping : Profile
         CreateMap<Contract, ResponseContractDTO>();
         CreateMap<User, ResponseUserDTO>();
         CreateMap<User, ResponseCreatedUserDTO>();
-
+        CreateMap<Proposal, ResponseProposalStatusDTO>();
+        CreateMap<Proposal, ResponseProposalInformationDTO>();
+        CreateMap<Project, ResponseProjectInformationDTO>();
     }
 }

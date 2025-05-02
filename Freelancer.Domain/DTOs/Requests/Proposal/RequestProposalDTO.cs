@@ -1,6 +1,6 @@
 ﻿using Freelancers.Domain.Enums;
 
-namespace Freelancers.Domain.DTOs.Requests;
+namespace Freelancers.Domain.DTOs.Requests.Proposal;
 
 public class RequestProposalDTO
 {

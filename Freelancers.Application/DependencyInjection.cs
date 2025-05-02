@@ -37,6 +37,13 @@ public static class DependencyInjection
         services.AddScoped<IGetAllUserUseCase, GetAllUserUseCase>();
         services.AddScoped<IGetAllReviewUseCase, GetAllReviewUseCase>();
         services.AddScoped<IGetAllContratcsUseCase, GetAllContractUseCase>();
+        services.AddScoped<IProcessProposalStatusUseCase, ProcessProposalStatusUseCase>();
+        services.AddScoped<IProcessProposalInformationUseCase, ProcessProposalInformationUseCase>();
+        services.AddScoped<IProcessProjectInformationUseCase, ProcessProjectInformationUseCase>();
+        services.AddScoped<ICreateContractUseCase, CreateContractUseCase>();
+        services.AddScoped<IAcceptTermsOfContractUseCase, AcceptTermsOfContractUseCase>();
+        services.AddScoped<IDeleteProjectUseCase, DeleteProjectUseCase>();
+        services.AddScoped<IDeleteProposalUseCase, DeleteProposalUseCase>();
     }
 
 }

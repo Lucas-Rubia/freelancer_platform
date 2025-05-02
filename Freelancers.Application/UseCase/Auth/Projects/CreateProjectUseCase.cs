@@ -1,5 +1,8 @@
-﻿using AutoMapper;
-using Freelancers.Domain.DTOs.Requests;
+﻿using System.Diagnostics.Contracts;
+using AutoMapper;
+using Freelancers.Domain.DTOs.Requests.Project;
+using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.DTOs.Responses.Contract;
 using Freelancers.Domain.DTOs.Responses.Projects;
 using Freelancers.Domain.Entities;
 using Freelancers.Domain.Exceptions;
@@ -17,7 +20,7 @@ public class CreateProjectUseCase(
     private readonly IProjectWriteOnlyRepository _projectWriteOnlyRepository = projectWriteOnlyRepository;
     private readonly IUnityOfWork _unityOfWork = unityOfWork;
     private readonly IMapper _mapper = mapper;
-    public async Task<ResponseCreateProjectDTO> Execute(RequestProjectDTO request)
+    public async Task<BaseResponse<ResponseCreateProjectDTO>> Execute(RequestProjectDTO request)
     {
         await Validate(request);
 
@@ -26,7 +29,9 @@ public class CreateProjectUseCase(
         await _projectWriteOnlyRepository.Add(project);
         await _unityOfWork.Commit();
 
-        return _mapper.Map<ResponseCreateProjectDTO>(project);
+        var projectData = _mapper.Map<ResponseCreateProjectDTO>(project);
+
+        return new BaseResponse<ResponseCreateProjectDTO>(projectData);
 
     }
 

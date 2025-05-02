@@ -5,5 +5,6 @@ namespace Freelancers.Domain.Repositories.Projects;
 
 public interface IProjectReadOnlyRepository
 {
-    Task<BasePagedResult<List<Project>?>> GetAllAsync(int pageSize, int pageNumber);
+    Task<BasePagedResult<List<Project>?>> GetAllAsync(int userID, int pageSize, int pageNumber);
+    Task<Project?> GetByIdAsync(int projectId);
 }

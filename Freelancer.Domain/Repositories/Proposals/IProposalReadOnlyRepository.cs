@@ -5,5 +5,6 @@ namespace Freelancers.Domain.Repositories.Proposals;
 
 public interface IProposalReadOnlyRepository
 {
-    Task<BasePagedResult<List<Proposal>?>> GetAllAsync(int pageSize, int pageNumber);
+    Task<BasePagedResult<List<Proposal>?>> GetAllAsync(int userID, int pageSize, int pageNumber);
+    Task<Proposal?> GetByIdAsync(int proposalId);
 }

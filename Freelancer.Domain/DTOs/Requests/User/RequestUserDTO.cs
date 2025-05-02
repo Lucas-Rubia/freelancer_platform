@@ -1,6 +1,6 @@
 ﻿using Freelancers.Domain.Enums;
 
-namespace Freelancers.Domain.DTOs.Requests;
+namespace Freelancers.Domain.DTOs.Requests.User;
 
 public class RequestUserDTO
 {

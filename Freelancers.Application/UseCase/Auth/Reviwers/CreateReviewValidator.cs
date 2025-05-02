@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using FluentValidation;
-using Freelancers.Domain.DTOs.Requests;
+using Freelancers.Domain.DTOs.Requests.Review;
 
 namespace Freelancers.Application.UseCase.Auth.Reviwers;
 

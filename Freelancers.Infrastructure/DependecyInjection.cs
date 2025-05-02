@@ -41,5 +41,6 @@ public static class DependecyInjection
         services.AddScoped<IReviewReadOnlyRepository, ReviewRepository>();
         services.AddScoped<IReviewWriteOnlyRepository, ReviewRepository>();
         services.AddScoped<IContractReadOnlyRepository, ContractRepository>();
+        services.AddScoped<IContractWriteOnlyRepository, ContractRepository>();
     }
 }

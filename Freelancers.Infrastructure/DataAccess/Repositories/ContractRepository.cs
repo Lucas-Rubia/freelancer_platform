@@ -5,15 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Freelancers.Infrastructure.DataAccess.Repositories;
 
-internal class ContractRepository(FreelancersDbContext context): IContractReadOnlyRepository
+internal class ContractRepository(FreelancersDbContext context): IContractReadOnlyRepository, IContractWriteOnlyRepository
 {
-    private readonly FreelancersDbContext _dbconxtext = context;
+    private readonly FreelancersDbContext _dbcontext = context;
 
-    public async Task<BasePagedResult<List<Contract>?>> GetAllAsync(int pageSize, int pageNumber)
+    public async Task Add(Contract contract)
     {
-        var query = _dbconxtext
+        await _dbcontext.Contracts.AddAsync(contract);
+    }
+
+    public async Task<BasePagedResult<List<Contract>?>> GetAllAsync(int userID, int pageSize, int pageNumber)
+    {
+        var query = _dbcontext
             .Contracts
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(x => x.Proposal)
+            .ThenInclude(x => x.Project)
+            .Where(x => x.Proposal.Project.UserId == userID || x.Proposal.FreelancerId == userID);
+
 
         var contract = await query
             .Skip((pageNumber - 1) * pageSize)
@@ -23,5 +32,17 @@ internal class ContractRepository(FreelancersDbContext context): IContractReadOn
         var count = await query.CountAsync();
 
         return new BasePagedResult<List<Contract>?>(contract, count);
+    }
+
+    public async Task<Contract?> GetByIdAsync(int contractId)
+    {
+        return await _dbcontext
+        .Contracts
+        .FirstOrDefaultAsync(x => x.Id == contractId);
+    }
+
+    public void UpdateContractStatus(Contract contract)
+    {
+        _dbcontext.Contracts.Update(contract);
     }
 }

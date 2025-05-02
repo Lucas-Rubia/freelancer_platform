@@ -5,5 +5,5 @@ namespace Freelancers.Domain.Interfaces.Proposal;
 
 public interface IGetAllProposalUseCase
 {
-    Task<BasePagedResponse<List<ResponseProposalDTO>?>> Execute(int pageSize, int pageNumber);
+    Task<BasePagedResponse<List<ResponseProposalDTO>?>> Execute(int userID, int pageSize, int pageNumber);
 }

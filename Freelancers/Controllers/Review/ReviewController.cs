@@ -1,5 +1,5 @@
 ﻿using Freelancers.Domain;
-using Freelancers.Domain.DTOs.Requests;
+using Freelancers.Domain.DTOs.Requests.Review;
 using Freelancers.Domain.DTOs.Responses;
 using Freelancers.Domain.DTOs.Responses.Review;
 using Freelancers.Domain.Interfaces.Review;
