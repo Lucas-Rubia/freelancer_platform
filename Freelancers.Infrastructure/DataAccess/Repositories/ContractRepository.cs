@@ -1,4 +1,5 @@
 ﻿using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.DTOs.Responses.Contract;
 using Freelancers.Domain.Entities;
 using Freelancers.Domain.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ internal class ContractRepository(FreelancersDbContext context): IContractReadOn
         await _dbcontext.Contracts.AddAsync(contract);
     }
 
-    public async Task<BasePagedResult<List<Contract>?>> GetAllAsync(int userID, int pageSize, int pageNumber)
+    public async Task<BasePagedResult<List<ContractWithTitleAndSubcriptionProject>?>> GetAllAsync(int userID, int pageSize, int pageNumber)
     {
         var query = _dbcontext
             .Contracts
@@ -25,13 +26,22 @@ internal class ContractRepository(FreelancersDbContext context): IContractReadOn
 
 
         var contract = await query
+            .Select(x => new ContractWithTitleAndSubcriptionProject
+            {
+                Id = x.Id,
+                EndDate = x.EndDate,
+                StartDate = x.StartDate,
+                Status = x.Status,
+                TitleProject = x.Proposal.Project.Title,
+                SubcriptionProject = x.Proposal.Project.Description
+            })
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
         var count = await query.CountAsync();
 
-        return new BasePagedResult<List<Contract>?>(contract, count);
+        return new BasePagedResult<List<ContractWithTitleAndSubcriptionProject>?>(contract, count);
     }
 
     public async Task<Contract?> GetByIdAsync(int contractId)

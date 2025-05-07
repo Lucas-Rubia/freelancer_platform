@@ -1,4 +1,5 @@
 ﻿using Freelancers.Domain.DTOs.Responses;
+using Freelancers.Domain.DTOs.Responses.Proposal;
 using Freelancers.Domain.Entities;
 using Freelancers.Domain.Repositories.Proposals;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ internal class ProposalRepository(FreelancersDbContext context) : IProposalWrite
         _dbcontext.Remove(result);
         return true;
     }
-    public async Task<BasePagedResult<List<Proposal>?>> GetAllAsync(int userID, int pageSize, int pageNumber)
+    public async Task<BasePagedResult<List<ProposalWithTitleProject>?>> GetAllAsync(int userID, int pageSize, int pageNumber)
     {
         var query = _dbcontext
             .Proposals
@@ -33,13 +34,21 @@ internal class ProposalRepository(FreelancersDbContext context) : IProposalWrite
             .Where(x => x.FreelancerId == userID);
 
         var proposals = await query
+            .Select(x => new ProposalWithTitleProject
+            {
+                Id =x.Id,
+                Message =x.Message,
+                ProposedValue = x.ProposedValue,
+                Status = x.Status,
+                TitleProject = x.Project.Title
+            })
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
         var count = await query.CountAsync();
 
-        return new BasePagedResult<List<Proposal>?>(proposals, count);
+        return new BasePagedResult<List<ProposalWithTitleProject>?>(proposals, count);
     }
 
     public async Task<Proposal?> GetByIdAsync(int proposalId)

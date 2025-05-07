@@ -10,16 +10,16 @@ public class GetAllContractUseCase(IContractReadOnlyRepository contractReadOnlyR
 {
     private readonly IContractReadOnlyRepository _contractReadOnlyRepository = contractReadOnlyRepository;
     private readonly IMapper _mapper = mapper;
-    public async Task<BasePagedResponse<List<ResponseContractDTO>?>> Execute(int userID, int pageSize, int pageNumber)
+    public async Task<BasePagedResponse<List<ContractWithTitleAndSubcriptionProject>?>> Execute(int userID, int pageSize, int pageNumber)
     {
         var contract = await _contractReadOnlyRepository.GetAllAsync(userID, pageSize, pageNumber);
 
         if (contract is null)
-            return new BasePagedResponse<List<ResponseContractDTO>?>([], "Nenhum contrato encontrado");
+            return new BasePagedResponse<List<ContractWithTitleAndSubcriptionProject>?>([], "Nenhum contrato encontrado");
 
-        var contractData = _mapper.Map<List<ResponseContractDTO>>(contract.Data);
+        var contractData = _mapper.Map<List<ContractWithTitleAndSubcriptionProject>>(contract.Data);
 
-        var contratcDTO = new BasePagedResponse<List<ResponseContractDTO>?>(
+        var contratcDTO = new BasePagedResponse<List<ContractWithTitleAndSubcriptionProject>?>(
             contractData,
             contract!.TotalCount,
             pageNumber,
